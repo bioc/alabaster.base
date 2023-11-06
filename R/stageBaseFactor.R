@@ -24,7 +24,7 @@ setMethod("stageObject", "factor", function(x, dir, path, child = FALSE, ...) {
     dir.create(file.path(dir, path), showWarnings=FALSE)
     new_path <- paste0(path, "/indices.txt.gz")
 
-    contents <- as.integer(x)
+    contents <- as.integer(x) - 1L
     mock <- DataFrame(values=contents)
     if (!is.null(names(x))) {
         mock <- cbind(names=names(x), mock)
