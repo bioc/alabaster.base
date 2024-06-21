@@ -2,6 +2,10 @@
 \title{alabaster.base News}
 \encoding{UTF-8}
 
+\section{Version 1.4.2}{\itemize{
+\item Open HDF5 files in read-only mode to avoid permission-related problems for \code{readObject()}-dispatched functions.
+}}
+
 \section{Version 1.4.1}{\itemize{
 \item Store numbers at maximum precision when saving lists in the JSON format via \code{saveObject}.
 }}
