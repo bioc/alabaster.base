@@ -61,15 +61,6 @@ setGeneric("saveObject", function(x, path, ...) {
         stop("cannot save ", class(x)[1], " at existing path '", path, "'")
     }
 
-    # Need to search here to pick up any subclasses that might have better
-    # saveObject methods in yet-to-be-loaded packages.
-    if (.search_methods(x)) {
-        fun <- selectMethod("saveObject", class(x)[1], optional=TRUE)
-        if (!is.null(fun)) {
-            return(fun(x, path, ...))
-        }
-    }
-
     # Only validate once we're outside of nested calls, as each parent should
     # validate its children; separate validation of each child is redundant.
     toplevel <- !is_nested$status
@@ -77,6 +68,10 @@ setGeneric("saveObject", function(x, path, ...) {
         is_nested$status <- TRUE
         on.exit({ is_nested$status <- FALSE }, add=TRUE, after=FALSE)
     }
+
+    # Try to detect more specialized saveObject methods in yet-to-be-loaded packages.
+    # This will load in the relevant packages before S4 dispatch in standardGeneric(). 
+    .search_methods(x)
 
     standardGeneric("saveObject")
 
