@@ -72,7 +72,7 @@ readObject <- function(path, metadata=NULL, ...) {
     }
 
     # Setting up the save environment.
-    lfun <- loadSaveEnvironment(path)
+    lfun <- .load_save_environment(path)
     on.exit(lfun(), add=TRUE, after=FALSE)
 
     meth(path, metadata=metadata, ...)

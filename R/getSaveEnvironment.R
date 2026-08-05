@@ -1,0 +1,127 @@
+#' Track the environment used to save objects
+#'
+#' Utilities to access the R environment used by \code{\link{saveObject}} for any given object.
+#'
+#' @param record Boolean indicating whether to record the environment used to save an object.
+#'
+#' @return
+#' \code{formatSaveEnvironment} returns a named list containing the current R environment, derived from the \code{\link[utils]{sessionInfo}}.
+#' This records the R \code{version}, the \code{platform} in which R is running, and the versions of all \code{packages} as a named list.
+#'
+#' When called inside a \code{\link{readObject}} context (i.e., inside a registered function that is called by \code{\link{readObject}})
+#' \code{getSaveEnvironment} returns a named list of the same structure as that returned by \code{\link{formatSaveEnvironment}}.
+#' This represents the state of the environment used to save the object currently being read by \code{\link{readObject}}.
+#' Alternatively, \code{NULL} is returned if this function is called outside of the \code{\link{readObject}} context,
+#' and/or no environment information was recorded for the current object.
+#'
+#' If \code{record} is not supplied, \code{recordSaveEnvironment} returns a boolean indicating whether \code{\link{saveObject}} should record the environment's details.
+#' If \code{record} is supplied, it is used to set the environment recording policy, and the previous setting of this value is invisibly returned.
+#'
+#' @details
+#' When saving an object, \pkg{\link{saveObject}} will automatically record some details about the current R environment. 
+#' This facilitates trouble-shooting and provides some opportunities for corrective measures if any bugs are found in older \code{saveObject} methods.
+#' Information about the save environment is stored in an \code{_environment.json} file inside the directory containing the object.
+#' Subdirectories for child objects may also have separate \code{_environment.json} files (e.g., if they were created in a different environment),
+#' otherwise it is assumed that they inherit the save environment from the parent object.
+#'
+#' Application or extension developers may call \code{getSaveEnvironment} from inside a registered function used by \code{\link{readObject}} or \code{\link{altReadObject}}.
+#' This wil return details of the environment that was used to save the object that is currently being read by the registered function.
+#' By accessing the historical environment, developers can check if buggy versions of the corresponding \code{saveObject} or \code{altSaveObject} methods were used.
+#' Appropriate corrective measures can then be applied to recover the correct object, warn users, etc.
+#' 
+#' @author Aaron Lun
+#'
+#' @examples
+#' # Examine the state of the current save environment:
+#' info <- formatSaveEnvironment()
+#' str(info)
+#'
+#' # Let's mock up an output directory containing an environment file,
+#' # as if it were created by a top-level saveObject() call:
+#' tmp <- tempfile()
+#' dir.create(tmp)
+#' saveObjectFile(tmp, "foobar")
+#' write(
+#'     file=file.path(tmp, "_environment.json"),
+#'     jsonlite::toJSON(info, pretty=4, auto_unbox=TRUE)
+#' )
+#' 
+#' # Within readObject functions, we can call getSaveEnvironment()
+#' # to get the state of the environment that was used to save the object.
+#' registerReadObjectFunction("foobar", function(x, metadata, ...) {
+#'     cat("Hi I'm loading a FOOBAR object, saved with the following environment:\n")
+#'     print(getSaveEnvironment())
+#'     "FOOBAR"
+#' })
+#'
+#' readObject(tmp)
+#'
+#' registerReadObjectFunction("foobar", NULL)
+#'
+#' @export
+getSaveEnvironment <- function() {
+    save.env$environment
+}
+
+save.env <- new.env()
+save.env$record <- TRUE
+save.env$environment <- NULL
+
+#' @export
+#' @rdname getSaveEnvironment
+recordSaveEnvironment <- function(record) {
+    old <- save.env$record
+    if (missing(record)) {
+        return(old)
+    } else {
+        save.env$record <- record
+        return(invisible(old))
+    }
+}
+
+#' @export
+#' @rdname getSaveEnvironment
+#' @importFrom utils sessionInfo
+formatSaveEnvironment <- function() {
+    info <- sessionInfo()
+    list(
+        type="R",
+        version=paste0(info$R.version$major, ".", info$R.version$minor),
+        platform=info$platform,
+        packages=c(
+            lapply(info$otherPkgs, function(x) x$Version),
+            lapply(info$loadedOnly, function(x) x$Version)
+        )
+    )
+}
+
+#' @importFrom jsonlite toJSON
+.dump_save_environment <- function(path) {
+    if (save.env$record) {
+        write(file=.get_environment_path(path), toJSON(formatSaveEnvironment(), pretty=4, auto_unbox=TRUE))
+    }
+}
+
+.get_environment_path <- function(path) {
+    file.path(path, "_environment.json")
+}
+
+#' @importFrom jsonlite fromJSON
+.load_save_environment <- function(path) {
+    candidate <- .get_environment_path(path)
+    if (!file.exists(candidate)) {
+        return(function(){})
+    }
+
+    current <- try(fromJSON(candidate, simplifyVector=FALSE), silent=TRUE)
+    if (is(current, "try-error")) {
+        warning("failed to read environment information at '", path, "', ", attr(current, "condition")$message)
+        return(function(){})
+    }
+
+    previous <- save.env$environment
+    save.env$environment <- current
+    function() {
+        save.env$environment <- previous
+    }
+}

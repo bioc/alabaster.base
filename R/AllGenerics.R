@@ -72,23 +72,22 @@ setGeneric("saveObject", function(x, path, ...) {
 
     # Only validate once we're outside of nested calls, as each parent should
     # validate its children; separate validation of each child is redundant.
-    do_validate <- !is_nested$status
-    if (do_validate) {
+    toplevel <- !is_nested$status
+    if (toplevel) {
         is_nested$status <- TRUE
         on.exit({ is_nested$status <- FALSE }, add=TRUE, after=FALSE)
     }
 
-    # Setting up the save environment.
-    sfuns <- registerSaveEnvironment()
-    on.exit(sfuns$restore(), add=TRUE, after=FALSE)
-
     standardGeneric("saveObject")
 
-    if (do_validate) {
+    if (toplevel) {
         validateObject(path)
+
+        # Make sure we do this at the very end, to account for extra
+        # alabaster.* packages that might have been loaded in the meantime.
+        .dump_save_environment(path)
     }
 
-    sfuns$write(path)
     invisible(NULL)
 })
 

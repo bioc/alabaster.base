@@ -70,7 +70,7 @@ altReadObject <- function(path, ...) {
         FUN <- readObject
     } else {
         # Setting up the save environment.
-        lfun <- loadSaveEnvironment(path)
+        lfun <- .load_save_environment(path)
         on.exit(lfun(), add=TRUE, after=FALSE)
     }
 

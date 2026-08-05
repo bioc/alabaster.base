@@ -32,10 +32,10 @@ LinkingTo:
     Rhdf5lib
 VignetteBuilder: knitr
 SystemRequirements: C++17, GNU make
-RoxygenNote: 7.3.3
 Encoding: UTF-8
 biocViews:
     DataRepresentation,
     DataImport
 URL: https://github.com/ArtifactDB/alabaster.base
 BugReports: https://github.com/ArtifactDB/alabaster.base/issues
+Config/roxygen2/version: 8.0.0

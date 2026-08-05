@@ -66,18 +66,9 @@
 #' @aliases .stageObject .altStageObject altStageObject altStageObjectFunction
 altSaveObject <- function(x, path, ...) {
     FUN <- altSaveObjectFunction()
-
     if (is.null(FUN)) {
         FUN <- saveObject
-    } else {
-        # Setting up the save environment.
-        sfuns <- registerSaveEnvironment()
-        on.exit({ 
-            sfuns$write(path)
-            sfuns$restore()
-        }, add=TRUE, after=FALSE)
     }
-
     FUN(x, path, ...)
 }
 
