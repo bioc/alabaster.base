@@ -110,7 +110,7 @@ setMethod("saveObject", "DataFrame", function(x, path, DataFrame.character.vls=N
             sanitized <- .sanitize_date(col)
 
         } else if (is.atomic(col)) {
-            if (length(dim(col)) > 1) {
+            if (!is.null(dim(col))) {
                 is.other <- TRUE
             } else {
                 coerced <- .remap_atomic_type(col)

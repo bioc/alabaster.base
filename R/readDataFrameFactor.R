@@ -57,6 +57,7 @@ readDataFrameFactor <- function(path, metadata, ...) {
 
 #' @export
 loadDataFrameFactor <- function(info, project, ...) {
+    .Deprecated(old = "loadDataFrameFactor", new = "readDataFrameFactor")
     lev.info <- acquireMetadata(project, info$data_frame_factor$levels$resource$path)
     levels <- altLoadObject(lev.info, project=project)
 

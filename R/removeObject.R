@@ -42,6 +42,7 @@
 #'
 #' @export
 removeObject <- function(dir, path) {
+    .Deprecated()
     meta <- acquireMetadata(dir, path)
 
     if (isTRUE(meta$is_child)) {

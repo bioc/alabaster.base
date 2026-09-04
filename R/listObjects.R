@@ -78,6 +78,7 @@ listObjects <- function(dir, include.children=FALSE) {
 #' @export
 #' @importFrom jsonlite fromJSON
 listDirectory <- function(dir, ignore.children = TRUE) {
+    .Deprecated(new = "listObjects")
     all.json <- list.files(dir, pattern="\\.json$", recursive=TRUE)
     out <- lapply(file.path(dir, all.json), fromJSON, simplifyVector=FALSE)
     names(out) <- vapply(out, function(x) x$path, "")

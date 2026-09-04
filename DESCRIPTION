@@ -1,7 +1,7 @@
 Package: alabaster.base
 Title: Save Bioconductor Objects to File
-Version: 1.13.2
-Date: 2026-08-05
+Version: 1.13.3
+Date: 2026-09-04
 Authors@R: person("Aaron", "Lun", role=c("aut", "cre"), email="infinite.monkeys.with.keyboards@gmail.com")
 License: MIT + file LICENSE
 Description: 
@@ -38,4 +38,4 @@ biocViews:
     DataImport
 URL: https://github.com/ArtifactDB/alabaster.base
 BugReports: https://github.com/ArtifactDB/alabaster.base/issues
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

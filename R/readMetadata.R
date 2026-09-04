@@ -38,6 +38,7 @@ readMetadata <- function(x, metadata.path, mcols.path, ...) {
 
 #' @export
 restoreMetadata <- function(x, mcol.data, meta.data, project) { 
+    .Deprecated(new = "readMetadata")
     if (!is.null(mcol.data)) {
         rd.info <- acquireMetadata(project, mcol.data$resource$path)
         mcols(x) <- altLoadObject(rd.info, project)

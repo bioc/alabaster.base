@@ -139,6 +139,7 @@ registerReadObjectFunction <- function(type, fun, existing=c("old", "new", "erro
 
 #' @export
 loadObject <- function(info, project, ...) {
+    .Deprecated(old = "loadObject", new = "readObject")
     customloadObjectHelper(info, 
         project, 
         ...,

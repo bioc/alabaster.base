@@ -41,6 +41,7 @@
 #' @export
 #' @aliases .createRedirection
 createRedirection <- function(dir, src, dest) {
+    .Deprecated()
     json <- paste0(src, ".json")
     if (file.exists(file.path(dir, json))) {
         stop("cannot create a short-hand link over existing file '", json, "'")

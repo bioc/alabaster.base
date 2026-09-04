@@ -57,6 +57,7 @@ saveMetadata <- function(x, metadata.path, mcols.path, ...) {
 #' @export
 #' @importFrom S4Vectors metadata
 processMetadata <- function(x, dir, path, meta.name) {
+    .Deprecated(new = "saveMetadata")
     if (!is.null(meta.name) && length(metadata(x))) {
         tryCatch({
             meta <- altStageObject(metadata(x), dir, paste0(path, "/", meta.name), child=TRUE) 
@@ -70,6 +71,7 @@ processMetadata <- function(x, dir, path, meta.name) {
 #' @export
 #' @importFrom S4Vectors mcols
 processMcols <- function(x, dir, path, mcols.name) {
+    .Deprecated(new = "saveMetadata")
     output <- NULL
 
     if (!is.null(mcols.name)) {

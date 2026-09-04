@@ -95,6 +95,7 @@ is_nested$status <- FALSE
 
 #' @export
 setGeneric("stageObject", function(x, dir, path, child=FALSE, ...) {
+    .Deprecated(old = "stageObject", new = "saveObject")
     if (path != "." && file.exists(full.path <- file.path(dir, path))) {
         stop("cannot stage ", class(x)[1], " at existing path '", full.path, "'")
     }
@@ -185,11 +186,15 @@ setGeneric("stageObject", function(x, dir, path, child=FALSE, ...) {
 #'
 #' @export
 #' @name acquireFile
-setGeneric("acquireFile", function(project, path) standardGeneric("acquireFile"))
+setGeneric("acquireFile", function(project, path) {
+    .Deprecated(old = "acquireFile")
+    standardGeneric("acquireFile")
+})
 
 #' @export
 #' @rdname acquireFile
 setGeneric("acquireMetadata", function(project, path) {
+    .Deprecated(old = "acquireMetadata")
     ans <- standardGeneric("acquireMetadata")
 
     # Handling redirections. Applications that want to support different redirection

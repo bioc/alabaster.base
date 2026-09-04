@@ -81,6 +81,8 @@ readAtomicVector <- function(path, metadata, ...) {
 
 #' @export
 loadAtomicVector <- function(info, project, ...) {
+    .Deprecated(old = "loadAtomicVector", new = "readAtomicVector")
+
     fpath <- acquireFile(project, info$path)
     meta <- info$atomic_vector
 

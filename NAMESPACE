@@ -124,29 +124,37 @@ import(alabaster.schemas)
 import(methods)
 import(rhdf5)
 importFrom(Rcpp,sourceCpp)
-importFrom(S4Vectors,"mcols<-")
-importFrom(S4Vectors,"metadata<-")
-importFrom(S4Vectors,DataFrame)
-importFrom(S4Vectors,DataFrameFactor)
-importFrom(S4Vectors,make_zero_col_DFrame)
-importFrom(S4Vectors,mcols)
-importFrom(S4Vectors,metadata)
-importFrom(jsonlite,fromJSON)
-importFrom(jsonlite,toJSON)
-importFrom(rhdf5,H5Aclose)
-importFrom(rhdf5,H5Acreate)
-importFrom(rhdf5,H5Awrite)
-importFrom(rhdf5,H5Dclose)
-importFrom(rhdf5,H5Dopen)
-importFrom(rhdf5,H5Fclose)
-importFrom(rhdf5,H5Fopen)
-importFrom(rhdf5,H5Gclose)
-importFrom(rhdf5,H5Gopen)
-importFrom(rhdf5,h5createFile)
-importFrom(rhdf5,h5createGroup)
-importFrom(rhdf5,h5write)
-importFrom(utils,head)
-importFrom(utils,sessionInfo)
-importFrom(utils,tail)
-importFrom(utils,write.csv)
+importFrom(S4Vectors,
+  "mcols<-",
+  "metadata<-",
+  DataFrame,
+  DataFrameFactor,
+  make_zero_col_DFrame,
+  mcols,
+  metadata
+)
+importFrom(jsonlite,
+  fromJSON,
+  toJSON
+)
+importFrom(rhdf5,
+  H5Aclose,
+  H5Acreate,
+  H5Awrite,
+  H5Dclose,
+  H5Dopen,
+  H5Fclose,
+  H5Fopen,
+  H5Gclose,
+  H5Gopen,
+  h5createFile,
+  h5createGroup,
+  h5write
+)
+importFrom(utils,
+  head,
+  sessionInfo,
+  tail,
+  write.csv
+)
 useDynLib(alabaster.base, .registration=TRUE)

@@ -143,6 +143,8 @@ readDataFrame <- function(path, metadata, ...) {
 
 #' @export
 loadDataFrame <- function(info, project, include.nested=TRUE, parallel=TRUE) {
+    .Deprecated(old = "loadDataFrame", new = "readDataFrame")
+
     has.rownames <- isTRUE(info$data_frame$row_names)
     col.info <- info$data_frame$columns
     has.columns <- length(col.info) > 0

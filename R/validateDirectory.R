@@ -52,6 +52,7 @@ validateDirectory <- function(dir, legacy=NULL, ...) {
         }
         invisible(objects$path)
     } else {
+        .Deprecated(msg = "'validateDirectory' with 'legacy=TRUE' is deprecated")
         legacy.validateDirectory(dir, ...)
     }
 }

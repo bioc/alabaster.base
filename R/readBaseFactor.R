@@ -57,6 +57,8 @@ readBaseFactor <- function(path, metadata, ...) {
 
 #' @export
 loadBaseFactor <- function(info, project, ...) {
+    .Deprecated(old = "loadBaseFactor", new = "readBaseFactor")
+
     fpath <- acquireFile(project, info$path)
     meta <- info$factor
 

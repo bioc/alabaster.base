@@ -63,6 +63,8 @@ readBaseList <- function(path, metadata, simple_list.parallel=TRUE, ...) {
 
 #' @export
 loadBaseList <- function(info, project, parallel=TRUE) {
+    .Deprecated(old = "loadBaseList", new = "readBaseList")
+
     children <- info$simple_list$children
     for (i in seq_along(children)) {
         child.meta <- acquireMetadata(project, children[[i]]$resource$path) 
