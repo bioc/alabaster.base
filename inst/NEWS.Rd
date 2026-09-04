@@ -4,6 +4,9 @@
 
 \section{Version 1.14.0}{\itemize{
 \item Bugfix to avoid requiring write access to files when reading VLS structures in various \code{read*()} functions.
+
+\item Officially deprecate \code{stageObject()} and \code{loadObject()} in favor of \code{saveObject()} and \code{readObject()}, respectively.
+The former have been soft-deprecated and scrubbed from documentation for quite some time, so it is unlikely that anyone is using them.
 }}
 
 \section{Version 1.12.0}{\itemize{
