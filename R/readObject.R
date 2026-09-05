@@ -107,7 +107,8 @@ read.registry$registry <- list(
     gmt_file="alabaster.files::readGmtFileReference",
     fasta_file="alabaster.files::readFastaFileReference",
     fastq_file="alabaster.files::readFastqFileReference",
-    bumpy_data_frame_array="alabaster.bumpy::readBumpyDataFrameMatrix"
+    bumpy_data_frame_array="alabaster.bumpy::readBumpyDataFrameMatrix",
+    vcf_experiment="alabaster.vcf::readVCF"
 )
 
 #' @export
