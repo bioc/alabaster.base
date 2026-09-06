@@ -23,7 +23,7 @@ implementers <- list(
 
     MultiAssayExperiment = "alabaster.mae",
 
-    DNAStringSet = "alabaster.string"
+    XStringSet = "alabaster.string"
 )
 
 package.lookup <- new.env()
